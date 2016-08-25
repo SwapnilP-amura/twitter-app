@@ -13,6 +13,11 @@ module SessionsHelper
 
   end
 
+  def remember(user)
+      user.remember                 #genrate random token and save its digest to database
+      cookies.permanent.signed[:user_id] = user.id    #save enc(id) to cookies
+      cookies.permanent[:remember_token] = user.remember_token    #save "plain text" genrated token in cookies
+  end
 
   def logged_in?
     !current_user.nil?
