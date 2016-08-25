@@ -3,8 +3,9 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:session) do |f| %>
-      <!--:session is hash , by default post is executed on current url ,but url can be passed as hash option-->
+    <%= form_for(:session,url: login_path) do |f| %>
+      <!--:session is hash ,by default post is executed on current url ,but url can be passed as hash option-->
+      <!--:session is name of hash-->
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
 
