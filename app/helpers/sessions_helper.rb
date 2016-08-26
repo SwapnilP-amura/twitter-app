@@ -21,7 +21,7 @@ module SessionsHelper
           @current_user = user
         end
     end
-      #eotherwise current_user returns nil
+      #otherwise current_user returns nil
   end
 
   def remember(user)
@@ -34,9 +34,19 @@ module SessionsHelper
     !current_user.nil?
   end
 
+
+
+  def forget(user)
+    user.forget                             #this ll give error if user is nil.
+    cookies.delete(:user_id)
+    cookies.delete(:remember_token)
+  end
+
   def log_out
+    forget(current_user)                      #multiple window bug [user becomes nil] ,call logout only if logged in
     session.delete(:user_id)
     #set current user to nil [important]
     @current_user = nil
   end
+
 end

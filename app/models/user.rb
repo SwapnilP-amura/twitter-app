@@ -33,10 +33,16 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, User.digest(remember_token))
     #storing dogest of token in database
   end
+
   def authenticated?(remember_token)
+    return false if remember_digest.nil?
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
     #varifying if remember_digest is enc of remember_token
     #if yes true
   end
 
+  def forget
+    update_attribute(:remember_digest, nil)
+    #updates remember digest => nil
+  end
 end
