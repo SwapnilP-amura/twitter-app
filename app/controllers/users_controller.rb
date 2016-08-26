@@ -1,4 +1,16 @@
 class UsersController < ApplicationController
+
+  before_action :logged_in_user, only: [:edit, :update]
+
+
+  def logged_in_user
+      unless logged_in?      #checking only whether user logged in or not is not enough,
+                              #this only fix access to non logged users to edit and update
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+  end
+
   def new
     @user=User.new
   end
@@ -33,6 +45,8 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
+
+
   end
 
   private
