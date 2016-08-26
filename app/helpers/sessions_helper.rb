@@ -14,6 +14,7 @@ module SessionsHelper
         @current_user ||= User.find_by(id: user_id)
         #if temporary session exists ,tertieve from it
     elsif (user_id = cookies.signed[:user_id])
+        #raise
         user = User.find_by(id: user_id)
         #if persistent session ,then check authenticity of remember_token
         if user && user.authenticated?(cookies[:remember_token])
