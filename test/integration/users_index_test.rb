@@ -4,6 +4,9 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
+  def setup
+    @user = users(:michael)
+  end
 
   test "should redirect index when not logged in" do
     get users_path
