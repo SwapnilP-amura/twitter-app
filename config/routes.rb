@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get '/signup',to: 'users#new'
   post '/signup',to: 'user#create'
   root 'static_pages#home'
+
+  resources :account_activations, only: [:edit]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
