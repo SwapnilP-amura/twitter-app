@@ -1,9 +1,13 @@
 class User < ActiveRecord::Base
-  attr_accessor :remember_token
+  attr_accessor :remember_token,:activation_token
+  before_create :create_activation_digest
+
 
   before_save do
     self.email=email.downcase
   end
+  #downcase email before saving.
+
 
   validates(:name,{:presence=>true,:length=>{:maximum=>50}})
 
@@ -45,4 +49,14 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, nil)
     #updates remember digest => nil
   end
+
+  private
+
+  def create_activation_digest
+    self.activation_token  = User.new_token
+    self.activation_digest = User.digest(activation_token)
+    #digest have databse column but we are in before create ,so db entry doesnt exist yet.
+    #so storing in instance var
+  end
+
 end
