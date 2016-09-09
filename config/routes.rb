@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   resources :users
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
@@ -14,7 +18,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   resources :account_activations, only: [:edit]
-
+  resources :password_resets,only: [:new, :create, :edit, :update]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -41,6 +45,7 @@ Rails.application.routes.draw do
   #     end
   #   end
 
+  #       get 'recent', on: :collection
   # Example resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales
@@ -51,7 +56,6 @@ Rails.application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get 'recent', on: :collection
   #     end
   #   end
 
