@@ -29,11 +29,10 @@ class PasswordResetsController < ApplicationController
     if params[:user][:password].empty?                  # Case (3)
       @user.errors.add(:password, "can't be empty")
       render 'edit'
-      #nil passswords are allowed for testing purposes.
-      #to avoid we manually inject error to user object.
-      #valid? check error is empty or not.
-      #validations will work too but we are allowing nil password for testing purposes.
-      #so here  we have to manually,generate error. 
+      #this validation required because allow:nil for password is true
+      #it shouldnt accept blank password in reset fields.
+      #keeping passwords blank in reset fields wont reset passwords.
+      #just like update profile
     elsif @user.update_attributes(user_params)          # Case (4)
       log_in @user
       flash[:success] = "Password has been reset."
@@ -58,6 +57,7 @@ class PasswordResetsController < ApplicationController
   def valid_user
       unless (@user && @user.activated? &&
               @user.authenticated?(:reset, params[:id]))
+        flash[:danger] = "Invalid Link"
         redirect_to root_url
       end
   end
