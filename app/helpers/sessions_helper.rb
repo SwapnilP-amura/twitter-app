@@ -22,7 +22,7 @@ module SessionsHelper
         #raise
         user = User.find_by(id: user_id)
         #if persistent session ,then check authenticity of remember_token
-        if user && user.authenticated?(cookies[:remember_token])
+        if user && user.authenticated?(:remember,cookies[:remember_token])
           log_in user
           @current_user = user
         end

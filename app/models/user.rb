@@ -38,11 +38,27 @@ class User < ActiveRecord::Base
     #storing dogest of token in database
   end
 
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
-    #varifying if remember_digest is enc of remember_token
-    #if yes true
+  # def authenticated?(remember_token)
+  #   return false if remember_digest.nil?
+  #   BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  #   #varifying if remember_digest is enc of remember_token
+  #   #if yes true
+  # end
+
+  def activate
+   update_attribute(:activated,    true)
+   update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # Sends activation email.
+  def send_activation_email
+   UserMailer.account_activation(self).deliver_now
+  end
+
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   def forget
@@ -56,7 +72,7 @@ class User < ActiveRecord::Base
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
     #digest have databse column but we are in before create ,so db entry doesnt exist yet.
-    #so storing in instance var
+    #so storing in instance var.
   end
 
 end
