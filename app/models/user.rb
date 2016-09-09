@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :microposts
   attr_accessor :remember_token,:activation_token,:reset_token
 
   #because activate_token generation process is must for every creation of user.
