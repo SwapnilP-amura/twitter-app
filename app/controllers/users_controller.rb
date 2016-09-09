@@ -35,6 +35,7 @@ class UsersController < ApplicationController
     @user=User.new(user_params)
     if @user.save
       # Handle a successful save.
+      #temporary activation digest is alsos saved to database
 
       #Account Activation
       @user.send_activation_email
