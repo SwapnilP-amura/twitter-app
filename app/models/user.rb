@@ -82,6 +82,12 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
+
+  #Posts of user himself and people to whome he is following.
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
   def create_activation_digest
     self.activation_token  = User.new_token
