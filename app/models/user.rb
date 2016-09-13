@@ -96,10 +96,21 @@ class User < ActiveRecord::Base
 
 
   #Posts of user himself and people to whome he is following.
-  def feed
-    Micropost.where("user_id = ?", id)
-  end
+  # def feed
+  #   Micropost.where("user_id = ?", id)
+  #   #currently we are showing only posts of current user
+  # end
 
+  def feed
+    #Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+
+
+    #effiecient
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
+  end  
   # Follows a user.
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)
@@ -114,6 +125,8 @@ class User < ActiveRecord::Base
   def following?(other_user)
     following.include?(other_user)
   end
+
+  # Returns a user's status feed.
 
 
   private

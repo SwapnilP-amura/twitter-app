@@ -31,6 +31,8 @@ class UsersController < ApplicationController
   def show
     @user=User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
+    #this displays posts of user only on his profile page
+    #page visisted by other user.
   end
 
   def create
