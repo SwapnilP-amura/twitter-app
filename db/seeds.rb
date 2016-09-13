@@ -14,6 +14,13 @@ User.create!(name:  "Example User",
              activated: true,
              activated_at: Time.zone.now)
 
+  User.create!(name:  "Swapnil",
+      email: "swapnil@gmail.org",
+      password:              "nextUntil",
+      password_confirmation: "nextUntil",
+      admin: true,
+      activated: true,
+      activated_at: Time.zone.now)
 
 99.times do |n|
   name  = Faker::Name.name
